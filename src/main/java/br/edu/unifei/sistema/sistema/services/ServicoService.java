@@ -28,7 +28,7 @@ public class ServicoService {
 	
 	@Transactional(readOnly = true)
 	public ServicoDTO findById(Long id) {
-		Servico result = servicoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Serviço não encontrado com o ID: " + id));
+		Servico result = servicoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Serviço	 não encontrado com o ID: " + id));
 		
 		Hibernate.initialize(result.getTags());
 		return new ServicoDTO(result);

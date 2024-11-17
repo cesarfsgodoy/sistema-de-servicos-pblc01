@@ -1,14 +1,18 @@
 package br.edu.unifei.sistema.sistema.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Message {
@@ -26,6 +30,13 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "forum_id")
     private Forum forum;
+    
+    @ManyToOne
+    @JoinColumn(name = "mensagem_pai_id") // Nome da FK no banco
+    private Message mensagemPai;
+    
+    @OneToMany(mappedBy = "mensagemPai", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> respostas = new ArrayList<>();
 
 
 	public Long getId() {
