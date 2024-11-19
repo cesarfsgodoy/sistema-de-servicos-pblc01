@@ -1,5 +1,6 @@
 package br.edu.unifei.sistema.sistema.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,7 +19,7 @@ public class Tag {
 	private String name;
 	
 	@ManyToMany(mappedBy = "tags")
-	private List<Servico> servicos;
+	private List<Servico> servicos = new ArrayList<Servico>();
 
 	public Long getId() {
 		return id;
