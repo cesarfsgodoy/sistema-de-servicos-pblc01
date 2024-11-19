@@ -41,7 +41,14 @@ public class UserService {
 	    return result;
 	}
 
-
+	@Transactional(readOnly = true)
+	public List<User> findAll() {
+	    List<User> result = userRepository.findAll();
+	    result.forEach(user -> Hibernate.initialize(user.getServicos())); // Inicializa a coleção
+	    result.forEach(user -> user.getServicos().forEach(servico -> Hibernate.initialize(servico.getForum().getMensagens())));
+	    result.forEach(user -> user.getServicos().forEach(servico -> Hibernate.initialize(servico.getTags())));
+	    return result;
+	}
 	
 //	@Transactional(readOnly = true)
 //	public List<UserDTO> findAll(){
@@ -53,10 +60,5 @@ public class UserService {
 //		return dto;
 //	}
 	
-	@Transactional(readOnly = true)
-	public List<User> findAll() {
-	    List<User> result = userRepository.findAll();
-	    result.forEach(user -> Hibernate.initialize(user.getServicos())); // Inicializa a coleção
-	    return result;
-	}
+	
 }
