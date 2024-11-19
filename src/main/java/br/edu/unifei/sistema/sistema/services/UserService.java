@@ -31,11 +31,14 @@ public class UserService {
 //	}
 	
 	@Transactional(readOnly = true)
-	public UserDTO findById(Long userId) {
+	public User findById(Long userId) {
 	    User result = userRepository.findById(userId)
 	        .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o ID: " + userId));
 	    Hibernate.initialize(result.getServicos());
-	    return new UserDTO(result);
+	    result.getServicos().forEach(servico -> Hibernate.initialize(servico.getTags()));
+	    result.getServicos().forEach(servico -> Hibernate.initialize(servico.getForum().getMensagens()));
+	    //return new UserDTO(result);
+	    return result;
 	}
 
 
@@ -51,9 +54,9 @@ public class UserService {
 //	}
 	
 	@Transactional(readOnly = true)
-	public List<UserDTO> findAll() {
+	public List<User> findAll() {
 	    List<User> result = userRepository.findAll();
 	    result.forEach(user -> Hibernate.initialize(user.getServicos())); // Inicializa a coleção
-	    return result.stream().map(UserDTO::new).toList();
+	    return result;
 	}
 }

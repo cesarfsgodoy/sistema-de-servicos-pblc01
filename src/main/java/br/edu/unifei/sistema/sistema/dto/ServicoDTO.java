@@ -1,5 +1,6 @@
 package br.edu.unifei.sistema.sistema.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ private Long id;
     private int data;
     private double avaliacao;
     private User user;
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<Tag>();
     private Forum forum;
     private Pagamento pagamento;
     

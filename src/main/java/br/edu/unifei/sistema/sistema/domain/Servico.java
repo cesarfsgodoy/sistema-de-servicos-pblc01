@@ -1,5 +1,6 @@
 package br.edu.unifei.sistema.sistema.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -26,9 +27,10 @@ public class Servico {
     private int data;
     private double avaliacao;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
     
     @ManyToMany
     @JoinTable(
@@ -36,7 +38,7 @@ public class Servico {
         joinColumns = @JoinColumn(name = "servico_id"),
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<Tag>();
     
     @OneToOne
     @JoinColumn(name = "forum_id")
@@ -45,6 +47,38 @@ public class Servico {
     @OneToOne
     @JoinColumn(name = "pagamento_id")
     private Pagamento pagamento;
+    
+    public Servico(Forum forum) {
+    	this.forum = forum;
+    }
+    
+    
+    
+    public Forum getForum() {
+		return forum;
+	}
+
+
+
+	public void setForum(Forum forum) {
+		this.forum = forum;
+	}
+
+
+
+	public Pagamento getPagamento() {
+		return pagamento;
+	}
+
+
+
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
+	}
+
+
+
+	public Servico() {}
 
 	public Long getId() {
 		return id;
@@ -94,13 +128,13 @@ public class Servico {
 		this.avaliacao = avaliacao;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 	public List<Tag> getTags() {
 		return tags;

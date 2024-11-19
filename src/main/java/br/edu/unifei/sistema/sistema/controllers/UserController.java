@@ -21,13 +21,13 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping
-	public List<UserDTO>findAll(){
+	public List<User>findAll(){
 		
 		return userService.findAll();
 	}
 	
 	@GetMapping(value = "/{id}")
-	public UserDTO findById(@PathVariable Long id) {
+	public User findById(@PathVariable Long id) {
 		return userService.findById(id);
 	}
 	

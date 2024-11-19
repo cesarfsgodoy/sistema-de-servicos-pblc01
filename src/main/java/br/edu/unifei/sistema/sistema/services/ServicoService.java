@@ -2,6 +2,7 @@ package br.edu.unifei.sistema.sistema.services;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,17 +18,22 @@ public class ServicoService {
 	private ServicoRepository servicoRepository;
 	
 	@Transactional(readOnly = true)
-	public List<ServicoDTO> findAll(){
+	public List<Servico> findAll(){
 		List <Servico> result = servicoRepository.findAllWithTags();
-		List<ServicoDTO> dto = result.stream().map(ServicoDTO::new).toList();
-		return dto;
+		result.forEach(servico -> Hibernate.initialize(servico.getForum().getMensagens()));
+		//List<ServicoDTO> dto = result.stream().map(ServicoDTO::new).toList();
+		return result;
 	}
 	
 	@Transactional(readOnly = true)
-	public ServicoDTO findById(Long id) {
+	public Servico findById(Long id) {
 		Servico result = servicoRepository.findByIdWithTags(id).orElseThrow(() -> new EntityNotFoundException("Serviço	 não encontrado com o ID: " + id));
-
-		return new ServicoDTO(result);
+		Hibernate.initialize(result.getForum().getMensagens());
+		//Hibernate.initialize(result.getUser().getServicos());
+		//System.out.println(result.getId());
+		//return new ServicoDTO(result);
+		//Hibernate.initialize(result.getUser().getServicos());
+		return result;
 	}
 	
 	@Transactional
