@@ -2,6 +2,8 @@ package br.edu.unifei.sistema.sistema.services;
 
 import java.util.List;
 
+import javax.annotation.processing.Messager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,5 +41,14 @@ public class MessageService {
 		mensagemRespondida.getRespostas().add(resposta);
 		resposta.setAutor(autor);
 		messageRepository.save(resposta);
+	}
+	
+	@Transactional
+	public List<MessageDTO> getRespostas(Long idMensagem){
+		Message menssagem = messageRepository.findById(idMensagem)
+				.orElseThrow(()->new EntityNotFoundException("Message not found with id: "+ idMensagem));
+		List<Message> respostas = menssagem.getRespostas();
+		var dto = respostas.stream().map(MessageDTO::new).toList();
+		return dto;
 	}
 }

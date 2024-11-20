@@ -33,4 +33,9 @@ public class MessageController {
 		messageService.addResposta(request, idMenssagemRespondida);
 	}
 	
+	@GetMapping(value = "/{idMenssagem}")
+	public List<MessageDTO> getRespostas(@PathVariable Long idMenssagem){
+		return messageService.getRespostas(idMenssagem);
+	}
+	
 }
