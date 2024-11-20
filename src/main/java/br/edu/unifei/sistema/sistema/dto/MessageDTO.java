@@ -11,17 +11,17 @@ public class MessageDTO {
     private String conteudo;
     private Date data;
     private Long idAutor;
-    private Long idMensagemPai;
+   // private Long idMensagemPai;
     private List<Long> idRespostas = new ArrayList<Long>();
-    private Long idForum;
+    //private Long idForum;
     
     public MessageDTO(Message message) {
     	this.id = message.getId();
     	this.conteudo = message.getConteudo();
     	this.data = message.getData();
     	this.idAutor = message.getAutor().getId();
-    	this.idMensagemPai = message.getMensagemPai().getId();
-    	this.idForum = message.getForum().getId();
+    	//this.idMensagemPai = message.getMensagemPai().getId();
+    	//this.idForum = message.getForum().getId();
     	message.getRespostas().forEach(resposta -> this.getIdRespostas().add(resposta.getId()));
     }
     
@@ -50,24 +50,18 @@ public class MessageDTO {
 	public void setIdAutor(Long idAutor) {
 		this.idAutor = idAutor;
 	}
-	public Long getIdMensagemPai() {
-		return idMensagemPai;
-	}
-	public void setIdMensagemPai(Long idMensagemPai) {
-		this.idMensagemPai = idMensagemPai;
-	}
 	public List<Long> getIdRespostas() {
 		return idRespostas;
 	}
 	public void setIdRespostas(List<Long> idRespostas) {
 		this.idRespostas = idRespostas;
 	}
-	public Long getIdForum() {
-		return idForum;
-	}
-	public void setIdForum(Long idForum) {
-		this.idForum = idForum;
-	}
+//	public Long getIdForum() {
+//		return idForum;
+//	}
+//	public void setIdForum(Long idForum) {
+//		this.idForum = idForum;
+//	}
     
     
     

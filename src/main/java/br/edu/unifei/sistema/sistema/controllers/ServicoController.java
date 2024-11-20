@@ -16,6 +16,7 @@ import br.edu.unifei.sistema.sistema.domain.Forum;
 import br.edu.unifei.sistema.sistema.domain.Message;
 import br.edu.unifei.sistema.sistema.domain.Servico;
 import br.edu.unifei.sistema.sistema.domain.User;
+import br.edu.unifei.sistema.sistema.dto.AddMessageRequest;
 import br.edu.unifei.sistema.sistema.dto.AddServicoRequest;
 import br.edu.unifei.sistema.sistema.dto.MessageDTO;
 import br.edu.unifei.sistema.sistema.dto.ServicoDTO;
@@ -80,9 +81,9 @@ public class ServicoController {
 	@PostMapping(value = "/{idServico}/messages")
 	public ResponseEntity<Void> addMessage(
 			@PathVariable Long idServico,
-			@RequestBody Message message){
+			@RequestBody AddMessageRequest request){
 		
-		servicoService.addMensagem(idServico, message);
+		servicoService.addMensagem(idServico, request);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}

@@ -27,15 +27,15 @@ public class Message {
     @JoinColumn(name = "usuario_id")
     private User autor;
 
-    @ManyToOne
-    @JoinColumn(name = "forum_id")
-    private Forum forum;
+//    @ManyToOne
+//    @JoinColumn(name = "forum_id")
+//    private Forum forum;
     
-    @ManyToOne
-    @JoinColumn(name = "mensagem_pai_id") // Nome da FK no banco
-    private Message mensagemPai;
+//    @ManyToOne
+//    @JoinColumn(name = "mensagem_pai_id") // Nome da FK no banco
+//    private Message mensagemPai;
     
-    @OneToMany(mappedBy = "mensagemPai", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> respostas = new ArrayList<>();
 
 
@@ -71,23 +71,23 @@ public class Message {
 		this.autor = autor;
 	}
 
-	public Forum getForum() {
-		return forum;
-	}
-
-	public void setForum(Forum forum) {
-		this.forum = forum;
-	}
+//	public Forum getForum() {
+//		return forum;
+//	}
+//
+//	public void setForum(Forum forum) {
+//		this.forum = forum;
+//	}
 	
 	
 
-	public Message getMensagemPai() {
-		return mensagemPai;
-	}
-
-	public void setMensagemPai(Message mensagemPai) {
-		this.mensagemPai = mensagemPai;
-	}
+//	public Message getMensagemPai() {
+//		return mensagemPai;
+//	}
+//
+//	public void setMensagemPai(Message mensagemPai) {
+//		this.mensagemPai = mensagemPai;
+//	}
 
 	public List<Message> getRespostas() {
 		return respostas;

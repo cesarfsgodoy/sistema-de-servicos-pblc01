@@ -2,6 +2,7 @@ package br.edu.unifei.sistema.sistema.services;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +31,10 @@ public class ForumService {
 	@Transactional(readOnly = true)
 	public ForumDTO findById(Long id) {
 		Forum result = forumRepository.findByIdWithMessages(id).orElseThrow(() -> new EntityNotFoundException("Forum não encontrado com o ID: " + id));
-		ForumDTO dto = new ForumDTO(result);
+		Hibernate.initialize(result.getMensagens());
 		
+		ForumDTO dto = new ForumDTO(result);
+	
 		return dto;
 	}
 }

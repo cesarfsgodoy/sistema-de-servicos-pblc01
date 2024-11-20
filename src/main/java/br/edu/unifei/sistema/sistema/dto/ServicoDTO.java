@@ -17,7 +17,7 @@ private Long id;
     private int data;
     private double avaliacao;
     private List<Long> idTags = new ArrayList<Long>();
-    private Forum forum;
+    private Long forumId;
     private Pagamento pagamento;
     
     public ServicoDTO() {}
@@ -33,7 +33,7 @@ private Long id;
 		this.data = data;
 		this.avaliacao = avaliacao;
 		this.idTags = idTags;
-		this.forum = forum;
+		this.forumId = forum.getId();
 		this.pagamento = pagamento;
 	}
 
@@ -44,7 +44,7 @@ private Long id;
 		this.dataCadastro = servico.getDataCadastro();
 		this.data = servico.getData();
 		this.avaliacao = servico.getAvaliacao();
-		this.forum = servico.getForum();
+		this.forumId = servico.getForum().getId();
 		this.pagamento = servico.getPagamento();
 		servico.getTags().forEach(tag -> this.getIdTags().add(tag.getId()));
 	}
@@ -98,12 +98,19 @@ private Long id;
 
 
 
-	public Forum getForum() {
-		return forum;
+	
+	public Long getForumId() {
+		return forumId;
 	}
-	public void setForum(Forum forum) {
-		this.forum = forum;
+
+
+
+	public void setForumId(Long forumId) {
+		this.forumId = forumId;
 	}
+
+
+
 	public Pagamento getPagamento() {
 		return pagamento;
 	}

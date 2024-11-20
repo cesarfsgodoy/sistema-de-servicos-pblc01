@@ -11,12 +11,15 @@ import br.edu.unifei.sistema.sistema.domain.Forum;
 import br.edu.unifei.sistema.sistema.domain.Message;
 import br.edu.unifei.sistema.sistema.domain.Servico;
 import br.edu.unifei.sistema.sistema.domain.Tag;
+import br.edu.unifei.sistema.sistema.domain.User;
+import br.edu.unifei.sistema.sistema.dto.AddMessageRequest;
 import br.edu.unifei.sistema.sistema.dto.MessageDTO;
 import br.edu.unifei.sistema.sistema.dto.ServicoDTO;
 import br.edu.unifei.sistema.sistema.repositories.ForumRepository;
 import br.edu.unifei.sistema.sistema.repositories.MessageRepository;
 import br.edu.unifei.sistema.sistema.repositories.ServicoRepository;
 import br.edu.unifei.sistema.sistema.repositories.TagRepository;
+import br.edu.unifei.sistema.sistema.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -32,6 +35,9 @@ public class ServicoService {
 	
 	@Autowired
 	private ForumRepository forumRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Transactional(readOnly = true)
 	public List<ServicoDTO> findAll(){
@@ -80,13 +86,22 @@ public class ServicoService {
 	}
 	
 	@Transactional
-	public void addMensagem(Long idServico, Message mensagem) {
+	public void addMensagem(Long idServico, AddMessageRequest request) {
 		Servico servico = servicoRepository.findById(idServico)
 				.orElseThrow(()->new EntityNotFoundException("service not found with id: "+idServico));
 		Forum forum = servico.getForum();
-		forum.getMensagens().add(mensagem);
+		Long idAutor = request.getIdAutor();
+		User autor = userRepository.findById(idAutor)
+				.orElseThrow(()-> new EntityNotFoundException("user not found with id: "+idAutor));
+		Message menssagem = request.getMenssagem();
+		menssagem.setAutor(autor);
+		forum.getMensagens().add(menssagem);
+		
+		//mensagem.setForum(forum);
+
+		messageRepository.save(menssagem);
+		servicoRepository.save(servico);
 		forumRepository.save(forum);
-		messageRepository.save(mensagem);
 		
 	}
 }

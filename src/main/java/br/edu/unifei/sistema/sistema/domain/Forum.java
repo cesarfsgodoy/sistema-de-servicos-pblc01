@@ -1,5 +1,6 @@
 package br.edu.unifei.sistema.sistema.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,16 +18,16 @@ public class Forum {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL)
-    private List<Message> mensagens;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Message> mensagens = new ArrayList<Message>();
     
     public Forum() {}
     
-    public Forum(ForumDTO forumDTO) {
-    	this.id = forumDTO.getId();
-    	this.mensagens = forumDTO.getMensagens();
-    }
-    
+//    public Forum(ForumDTO forumDTO) {
+//    	this.id = forumDTO.getId();
+//    	this.mensagens = forumDTO.getMensagens();
+//    }
+//    
     
 
 	public Forum(List<Message> mensagens) {

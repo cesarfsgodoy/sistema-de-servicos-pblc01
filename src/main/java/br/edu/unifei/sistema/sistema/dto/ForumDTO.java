@@ -9,30 +9,20 @@ import br.edu.unifei.sistema.sistema.domain.Message;
 
 public class ForumDTO {
 	private Long id;
-	private List<Message> mensagens;
+	private List<MessageDTO> mensagens;
 	
 	public ForumDTO() {}
 	
 	public ForumDTO(Forum forum) {
-		BeanUtils.copyProperties(forum, this);
-	}
-	
-	public ForumDTO(List<Message> mensagens) {
-		super();
-		this.mensagens = mensagens;
+		this.id = forum.getId();
+		this.mensagens = forum.getMensagens().stream().map(MessageDTO::new).toList();
 	}
 
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public List<Message> getMensagens() {
+	public List<MessageDTO> getMensagens() {
 		return mensagens;
-	}
-	public void setMensagens(List<Message> mensagens) {
-		this.mensagens = mensagens;
 	}
 	
 	
