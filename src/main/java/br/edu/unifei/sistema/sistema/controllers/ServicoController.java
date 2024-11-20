@@ -2,6 +2,7 @@ package br.edu.unifei.sistema.sistema.controllers;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,8 @@ public class ServicoController {
 		Servico servico = request.getServico();
 		Long userId = request.getUserId();
 		
-		User user = usuarioService.findById(userId);
+		User user = usuarioService.findByIdUser(userId);
+		Hibernate.initialize(user.getServicos());
 		user.getServicos().add(servico);
 		
 		forumService.addForum(forum);

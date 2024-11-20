@@ -31,34 +31,46 @@ public class UserService {
 //	}
 	
 	@Transactional(readOnly = true)
-	public User findById(Long userId) {
+	public UserDTO findById(Long userId) {
+	    User result = userRepository.findById(userId)
+	        .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o ID: " + userId));
+//	    Hibernate.initialize(result.getServicos());
+//	    result.getServicos().forEach(servico -> Hibernate.initialize(servico.getTags()));
+//	    result.getServicos().forEach(servico -> Hibernate.initialize(servico.getForum().getMensagens()));
+
+	    return new UserDTO(result);
+
+	}
+	
+	@Transactional(readOnly = true)
+	public User findByIdUser(Long userId) {
 	    User result = userRepository.findById(userId)
 	        .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o ID: " + userId));
 	    Hibernate.initialize(result.getServicos());
-	    result.getServicos().forEach(servico -> Hibernate.initialize(servico.getTags()));
-	    result.getServicos().forEach(servico -> Hibernate.initialize(servico.getForum().getMensagens()));
-	    //return new UserDTO(result);
+//	    result.getServicos().forEach(servico -> Hibernate.initialize(servico.getTags()));
+//	    result.getServicos().forEach(servico -> Hibernate.initialize(servico.getForum().getMensagens()));
+
 	    return result;
+
 	}
 
-	@Transactional(readOnly = true)
-	public List<User> findAll() {
-	    List<User> result = userRepository.findAll();
-	    result.forEach(user -> Hibernate.initialize(user.getServicos())); // Inicializa a coleção
-	    result.forEach(user -> user.getServicos().forEach(servico -> Hibernate.initialize(servico.getForum().getMensagens())));
-	    result.forEach(user -> user.getServicos().forEach(servico -> Hibernate.initialize(servico.getTags())));
-	    return result;
-	}
-	
 //	@Transactional(readOnly = true)
-//	public List<UserDTO> findAll(){
-//		
-//		List<User> result = userRepository.findAll();
-//		List<UserDTO> dto = result.stream().map(x -> new UserDTO(x)).toList();
-//		
-//		
-//		return dto;
+//	public List<User> findAll() {
+//	    List<User> result = userRepository.findAll();
+//	    result.forEach(user -> Hibernate.initialize(user.getServicos())); // Inicializa a coleção
+//	    result.forEach(user -> user.getServicos().forEach(servico -> Hibernate.initialize(servico.getForum().getMensagens())));
+//	    result.forEach(user -> user.getServicos().forEach(servico -> Hibernate.initialize(servico.getTags())));
+//	    return result;
 //	}
 	
+	@Transactional(readOnly = true)
+	public List<UserDTO> findAll(){
+		
+		List<User> result = userRepository.findAll();
+		List<UserDTO> dto = result.stream().map(x -> new UserDTO(x)).toList();
+		
+		
+		return dto;
+	}
 	
 }

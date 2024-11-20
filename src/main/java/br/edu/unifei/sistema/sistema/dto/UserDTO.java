@@ -1,5 +1,6 @@
 package br.edu.unifei.sistema.sistema.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -13,14 +14,17 @@ public class UserDTO {
     
     private String name;
     private String email;
-    private String password;
     private Double avaliacao;
-    private List<Servico> servicos;
+    private List<Long> servicosId = new ArrayList<Long>();
     
     public UserDTO() {}
     
-    public UserDTO(User entity) {
-    	BeanUtils.copyProperties(entity, this);
+    public UserDTO(User user) {
+    	this.id = user.getId();
+    	this.name = user.getName();
+    	this.email = user.getEmail();
+    	this.avaliacao = user.getAvaliacao();
+    	user.getServicos().forEach(servico -> this.servicosId.add(servico.getId()));
     }
     
 	public Long getId() {
@@ -41,23 +45,19 @@ public class UserDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPassword() {
-		return password;
+	public List<Long> getServicosId() {
+		return servicosId;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+
+	public void setServicosId(List<Long> servicosId) {
+		this.servicosId = servicosId;
 	}
+
 	public Double getAvaliacao() {
 		return avaliacao;
 	}
 	public void setAvaliacao(Double avaliacao) {
 		this.avaliacao = avaliacao;
-	}
-	public List<Servico> getServicos() {
-		return servicos;
-	}
-	public void setServicos(List<Servico> servicos) {
-		this.servicos = servicos;
 	}
     
     
