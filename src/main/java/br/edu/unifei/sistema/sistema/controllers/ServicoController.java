@@ -35,13 +35,13 @@ public class ServicoController {
 	private UserService usuarioService;
 	
 	@GetMapping
-	public List<Servico> findAll() {
+	public List<ServicoDTO> findAll() {
 		
 		return servicoService.findAll();
 	}
 	
 	@GetMapping(value = "/{id}")
-	public Servico findById(@PathVariable Long id) {
+	public ServicoDTO findById(@PathVariable Long id) {
 		return servicoService.findById(id);
 	}
 	

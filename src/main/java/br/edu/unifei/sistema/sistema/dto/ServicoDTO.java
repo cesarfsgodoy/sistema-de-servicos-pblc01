@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
-
 import br.edu.unifei.sistema.sistema.domain.Forum;
 import br.edu.unifei.sistema.sistema.domain.Pagamento;
 import br.edu.unifei.sistema.sistema.domain.Servico;
-import br.edu.unifei.sistema.sistema.domain.Tag;
-import br.edu.unifei.sistema.sistema.domain.User;
 
 public class ServicoDTO {
 private Long id;
@@ -20,8 +16,7 @@ private Long id;
     private Date dataCadastro;
     private int data;
     private double avaliacao;
-    private User user;
-    private List<Tag> tags = new ArrayList<Tag>();
+    private List<Long> idTags = new ArrayList<Long>();
     private Forum forum;
     private Pagamento pagamento;
     
@@ -29,22 +24,28 @@ private Long id;
     
     
     
-	public ServicoDTO(String titulo, String descricao, Date dataCadastro, int data, double avaliacao, User user,
-			List<Tag> tags, Forum forum, Pagamento pagamento) {
+	public ServicoDTO(String titulo, String descricao, Date dataCadastro, int data, double avaliacao,
+			List<Long> idTags, Forum forum, Pagamento pagamento) {
 		super();
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.dataCadastro = dataCadastro;
 		this.data = data;
 		this.avaliacao = avaliacao;
-		this.user = user;
-		this.tags = tags;
+		this.idTags = idTags;
 		this.forum = forum;
 		this.pagamento = pagamento;
 	}
 
 	public ServicoDTO(Servico servico) {
-		BeanUtils.copyProperties(servico, this);
+		this.titulo = servico.getTitulo();
+		this.descricao = servico.getDescricao();
+		this.dataCadastro = servico.getDataCadastro();
+		this.data = servico.getData();
+		this.avaliacao = servico.getAvaliacao();
+		this.forum = servico.getForum();
+		this.pagamento = servico.getPagamento();
+		servico.getTags().forEach(tag -> this.getIdTags().add(tag.getId()));
 	}
 
 	public Long getId() {
@@ -83,18 +84,19 @@ private Long id;
 	public void setAvaliacao(double avaliacao) {
 		this.avaliacao = avaliacao;
 	}
-	public User getUser() {
-		return user;
+	
+	public List<Long> getIdTags() {
+		return idTags;
 	}
-	public void setUser(User user) {
-		this.user = user;
+
+
+
+	public void setIdTags(List<Long> idTags) {
+		this.idTags = idTags;
 	}
-	public List<Tag> getTags() {
-		return tags;
-	}
-	public void setTags(List<Tag> tags) {
-		this.tags = tags;
-	}
+
+
+
 	public Forum getForum() {
 		return forum;
 	}
