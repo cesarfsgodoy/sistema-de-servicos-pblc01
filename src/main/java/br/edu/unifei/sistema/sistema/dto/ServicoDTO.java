@@ -38,6 +38,7 @@ private Long id;
 	}
 
 	public ServicoDTO(Servico servico) {
+		this.id = servico.getId();
 		this.titulo = servico.getTitulo();
 		this.descricao = servico.getDescricao();
 		this.dataCadastro = servico.getDataCadastro();

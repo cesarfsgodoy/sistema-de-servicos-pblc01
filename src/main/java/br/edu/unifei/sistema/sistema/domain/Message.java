@@ -25,7 +25,7 @@ public class Message {
     
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private User usuario;
+    private User autor;
 
     @ManyToOne
     @JoinColumn(name = "forum_id")
@@ -63,12 +63,12 @@ public class Message {
 		this.data = data;
 	}
 
-	public User getUsuario() {
-		return usuario;
+	public User getAutor() {
+		return autor;
 	}
 
-	public void setUsuario(User usuario) {
-		this.usuario = usuario;
+	public void setAutor(User autor) {
+		this.autor = autor;
 	}
 
 	public Forum getForum() {
@@ -77,6 +77,24 @@ public class Message {
 
 	public void setForum(Forum forum) {
 		this.forum = forum;
+	}
+	
+	
+
+	public Message getMensagemPai() {
+		return mensagemPai;
+	}
+
+	public void setMensagemPai(Message mensagemPai) {
+		this.mensagemPai = mensagemPai;
+	}
+
+	public List<Message> getRespostas() {
+		return respostas;
+	}
+
+	public void setRespostas(List<Message> respostas) {
+		this.respostas = respostas;
 	}
 
 	@Override

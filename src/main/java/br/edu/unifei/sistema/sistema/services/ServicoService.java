@@ -7,9 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.edu.unifei.sistema.sistema.domain.Forum;
+import br.edu.unifei.sistema.sistema.domain.Message;
 import br.edu.unifei.sistema.sistema.domain.Servico;
 import br.edu.unifei.sistema.sistema.domain.Tag;
+import br.edu.unifei.sistema.sistema.dto.MessageDTO;
 import br.edu.unifei.sistema.sistema.dto.ServicoDTO;
+import br.edu.unifei.sistema.sistema.repositories.ForumRepository;
+import br.edu.unifei.sistema.sistema.repositories.MessageRepository;
 import br.edu.unifei.sistema.sistema.repositories.ServicoRepository;
 import br.edu.unifei.sistema.sistema.repositories.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,6 +26,12 @@ public class ServicoService {
 	
 	@Autowired
 	private TagRepository tagRepository;
+	
+	@Autowired
+	private MessageRepository messageRepository;
+	
+	@Autowired
+	private ForumRepository forumRepository;
 	
 	@Transactional(readOnly = true)
 	public List<ServicoDTO> findAll(){
@@ -57,5 +68,25 @@ public class ServicoService {
 		tag.getServicos().add(servico);
 		tagRepository.save(tag);
 		servicoRepository.save(servico);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<MessageDTO> getMessagesByService(Long idServico) {
+		Servico servico = servicoRepository.findById(idServico)
+				.orElseThrow(()->new EntityNotFoundException("service not found with id: "+idServico));
+		List<Message> messages = servico.getForum().getMensagens();
+		List<MessageDTO> dto = messages.stream().map(MessageDTO::new).toList();
+		return dto;
+	}
+	
+	@Transactional
+	public void addMensagem(Long idServico, Message mensagem) {
+		Servico servico = servicoRepository.findById(idServico)
+				.orElseThrow(()->new EntityNotFoundException("service not found with id: "+idServico));
+		Forum forum = servico.getForum();
+		forum.getMensagens().add(mensagem);
+		forumRepository.save(forum);
+		messageRepository.save(mensagem);
+		
 	}
 }
