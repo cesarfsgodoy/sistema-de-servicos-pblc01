@@ -125,6 +125,25 @@ public class ServicoService {
 	}
 
 	@Transactional
+	public void deleteServico(Long idServico) {
+	    Servico servico = servicoRepository.findById(idServico)
+	            .orElseThrow(() -> new EntityNotFoundException("Servico nao encontrado com o ID: " + idServico));
+		List<User> users = userRepository.findAll();
+		for (User user : users) {
+			if(!user.getServicos().isEmpty()){
+				for (int i = 0; i < user.getServicos().size(); i++){
+					if (user.getServicos().get(i).getId() == idServico) {
+						user.getServicos().remove(i);
+						userRepository.save(user);
+					}
+				}
+
+			}
+		}
+	    servicoRepository.delete(servico);
+	}
+
+	@Transactional
 	public void deleteTag(Long idServico, Long idTag) {
 	    Servico servico = servicoRepository.findById(idServico)
 	            .orElseThrow(() -> new EntityNotFoundException("Servico nao encontrado com o ID: " + idServico));
