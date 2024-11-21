@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.unifei.sistema.sistema.domain.Servico;
 import br.edu.unifei.sistema.sistema.domain.Tag;
+import br.edu.unifei.sistema.sistema.domain.User;
 import br.edu.unifei.sistema.sistema.dto.ServicoDTO;
 import br.edu.unifei.sistema.sistema.dto.TagDTO;
 import br.edu.unifei.sistema.sistema.repositories.TagRepository;
@@ -49,6 +50,13 @@ public class TagService {
 	@Transactional
 	public void addTag(Tag tag) {
 		tagRepository.save(tag);
+	}
+
+	@Transactional
+	public void deleteTag(Long tagId) {
+	    Tag tag = tagRepository.findById(tagId)
+	            .orElseThrow(() -> new EntityNotFoundException("Tag nao encontrada com o ID: " + tagId));
+	    tagRepository.delete(tag);
 	}
 	
 }
