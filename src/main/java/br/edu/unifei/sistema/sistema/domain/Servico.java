@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,7 +32,7 @@ public class Servico {
 //    @JoinColumn(name = "user_id")
 //    private User user;
     
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "servico_tag",
         joinColumns = @JoinColumn(name = "servico_id"),
@@ -39,8 +40,7 @@ public class Servico {
     )
     private List<Tag> tags = new ArrayList<Tag>();
     
-    @OneToOne
-    @JoinColumn(name = "forum_id")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Forum forum;
     
     @OneToOne

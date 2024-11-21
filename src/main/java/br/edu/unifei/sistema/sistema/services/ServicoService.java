@@ -13,6 +13,7 @@ import br.edu.unifei.sistema.sistema.domain.Servico;
 import br.edu.unifei.sistema.sistema.domain.Tag;
 import br.edu.unifei.sistema.sistema.domain.User;
 import br.edu.unifei.sistema.sistema.dto.AddMessageRequest;
+import br.edu.unifei.sistema.sistema.dto.AddServicoRequest;
 import br.edu.unifei.sistema.sistema.dto.MessageDTO;
 import br.edu.unifei.sistema.sistema.dto.ServicoDTO;
 import br.edu.unifei.sistema.sistema.repositories.ForumRepository;
@@ -60,7 +61,12 @@ public class ServicoService {
 	}
 	
 	@Transactional
-	public void addServico(Servico servico) {
+	public void addServico(AddServicoRequest request) {
+		Servico servico = request.getServico();
+		User usuario = userRepository.findById(request.getUserId())
+				.orElseThrow(() -> new EntityNotFoundException("User not found with id: " + request.getUserId()));
+		servico.setForum(new Forum());
+		usuario.getServicos().add(servico);
 		servicoRepository.save(servico);
 	}
 	
