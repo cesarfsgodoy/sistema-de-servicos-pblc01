@@ -123,4 +123,23 @@ public class ServicoService {
 			throw new EntityNotFoundException("Servico not found with id: " + idServico);
 		}
 	}
+
+	@Transactional
+	public void deleteTag(Long idServico, Long idTag) {
+	    Servico servico = servicoRepository.findById(idServico)
+	            .orElseThrow(() -> new EntityNotFoundException("Servico nao encontrado com o ID: " + idServico));
+	    List<Tag> tags = servico.getTags();
+		try{
+			if(!tags.isEmpty()){
+				for(int i = 0; i < tags.size(); i++){
+					if(tags.get(i).getId() == idTag){
+						tags.remove(i);
+						servicoRepository.save(servico);
+					}
+				}
+			}
+		} catch (EntityNotFoundException e){
+			throw new EntityNotFoundException("Tag not found with id: " + idTag);
+		}
+	}
 }
