@@ -104,4 +104,17 @@ public class ServicoService {
 		forumRepository.save(forum);
 		
 	}
+	
+	@Transactional
+	public ServicoDTO updateServico(Long idServico, Servico servicoUp){
+		try{
+			Servico s = servicoRepository.getReferenceById(idServico);
+			s.setDescricao(servicoUp.getDescricao());
+			s.setTitulo(servicoUp.getTitulo());
+			s = servicoRepository.save(s);
+			return new ServicoDTO(s);
+		} catch (EntityNotFoundException e){
+			throw new EntityNotFoundException("Servico not found with id: " + idServico);
+		}
+	}
 }

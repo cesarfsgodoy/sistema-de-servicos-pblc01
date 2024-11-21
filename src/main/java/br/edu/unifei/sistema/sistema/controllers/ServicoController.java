@@ -2,19 +2,18 @@ package br.edu.unifei.sistema.sistema.controllers;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.unifei.sistema.sistema.domain.Forum;
-import br.edu.unifei.sistema.sistema.domain.Message;
 import br.edu.unifei.sistema.sistema.domain.Servico;
 import br.edu.unifei.sistema.sistema.domain.User;
 import br.edu.unifei.sistema.sistema.dto.AddMessageRequest;
@@ -56,7 +55,6 @@ public class ServicoController {
 		Long userId = request.getUserId();
 		
 		User user = usuarioService.findByIdUser(userId);
-		Hibernate.initialize(user.getServicos());
 		user.getServicos().add(servico);
 		
 		forumService.addForum(forum);
@@ -88,5 +86,9 @@ public class ServicoController {
 		servicoService.addMensagem(idServico, request);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+	@PutMapping("/{idServico}")
+	public void updateServico(@PathVariable Long idServico, @RequestBody Servico servicoUp) {
+		servicoService.updateServico(idServico,servicoUp);
 	}
 }

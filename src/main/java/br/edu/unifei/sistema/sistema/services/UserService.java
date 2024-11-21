@@ -15,7 +15,7 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class UserService {
 	
-	@Autowired
+	@Autowired 
 	UserRepository userRepository;
 	
 	@Transactional
@@ -72,5 +72,31 @@ public class UserService {
 		
 		return dto;
 	}
+	
+	@Transactional
+	public void deleteUser(Long userId) {
+	    User user = userRepository.findById(userId)
+	            .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o ID: " + userId));
+	    userRepository.delete(user);
+	}
+
+	
+	@Transactional
+	public UserDTO updateUser(Long userId, User userUpdate) {
+	    try {
+	        User user = userRepository.getReferenceById(userId);
+
+	        user.setName(userUpdate.getName());
+	        user.setEmail(userUpdate.getEmail());
+	        user.setPassword(userUpdate.getPassword());
+	        user.setAvaliacao(userUpdate.getAvaliacao());
+	        user = userRepository.save(user);
+	        return new UserDTO(user);
+	    } catch (EntityNotFoundException e) {
+	        throw new EntityNotFoundException("Usuário não encontrado com o ID: " + userId);
+	    }
+	}
+
+
 	
 }
