@@ -34,6 +34,11 @@ public class MessageController {
 	}
 	
 	@GetMapping(value = "/{idMenssagem}")
+	public MessageDTO getById(@PathVariable Long idMenssagem){
+		return messageService.getById(idMenssagem);
+	}
+
+	@GetMapping(value = "/{idMenssagem}/respostas")
 	public List<MessageDTO> getRespostas(@PathVariable Long idMenssagem){
 		return messageService.getRespostas(idMenssagem);
 	}

@@ -44,6 +44,13 @@ public class MessageService {
 	}
 	
 	@Transactional
+	public MessageDTO getById(Long idMensagem){
+		Message message = messageRepository.findById(idMensagem)
+				.orElseThrow(()->new EntityNotFoundException("Message not found with id: "+ idMensagem));
+		return new MessageDTO(message);
+	}
+
+	@Transactional
 	public List<MessageDTO> getRespostas(Long idMensagem){
 		Message menssagem = messageRepository.findById(idMensagem)
 				.orElseThrow(()->new EntityNotFoundException("Message not found with id: "+ idMensagem));
