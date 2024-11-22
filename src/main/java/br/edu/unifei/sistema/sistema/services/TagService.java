@@ -56,6 +56,7 @@ public class TagService {
 	public void deleteTag(Long tagId) {
 	    Tag tag = tagRepository.findById(tagId)
 	            .orElseThrow(() -> new EntityNotFoundException("Tag nao encontrada com o ID: " + tagId));
+	    tag.getServicos().forEach(servico -> servico.getTags().remove(tag));
 	    tagRepository.delete(tag);
 	}
 	
