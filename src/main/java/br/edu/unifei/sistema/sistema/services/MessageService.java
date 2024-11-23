@@ -41,6 +41,7 @@ public class MessageService {
 				.orElseThrow(()-> new EntityNotFoundException("message not found with id: "+idMensagemRespondida));
 		mensagemRespondida.getRespostas().add(resposta);
 		resposta.setAutor(autor);
+		resposta.setMensagemPai(mensagemRespondida);
 		messageRepository.save(resposta);
 	}
 	

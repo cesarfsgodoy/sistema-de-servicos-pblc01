@@ -31,17 +31,30 @@ public class Message {
 //    @JoinColumn(name = "forum_id")
 //    private Forum forum;
     
-//    @ManyToOne
-//    @JoinColumn(name = "mensagem_pai_id") // Nome da FK no banco
-//    private Message mensagemPai;
+    @ManyToOne
+    private Message mensagemPai;
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "mensagemPai",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> respostas = new ArrayList<>();
 
 
 	public Long getId() {
 		return id;
 	}
+	
+	
+
+	public Message getMensagemPai() {
+		return mensagemPai;
+	}
+
+
+
+	public void setMensagemPai(Message mensagemPai) {
+		this.mensagemPai = mensagemPai;
+	}
+
+
 
 	public void setId(Long id) {
 		this.id = id;
