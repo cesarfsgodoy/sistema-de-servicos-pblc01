@@ -32,7 +32,7 @@ public class User {
 //        joinColumns = @JoinColumn(name = "usuario_id"),
 //        inverseJoinColumns = @JoinColumn(name = "servico_id")
 //    )
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Servico> servicos;
     
     public User() {

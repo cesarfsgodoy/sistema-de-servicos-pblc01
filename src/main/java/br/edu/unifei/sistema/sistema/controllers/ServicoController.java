@@ -101,7 +101,7 @@ public class ServicoController {
         return ResponseEntity.noContent().build();
     }
 	
-	@DeleteMapping(value = "/{idServico}/tag/{idTag}")
+	@DeleteMapping(value = "/{idServico}/tags/{idTag}")
     public void deleteTag(@PathVariable Long idServico, @PathVariable Long idTag) {
         servicoService.deleteTag(idServico, idTag);
     }

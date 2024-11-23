@@ -66,6 +66,7 @@ public class ServicoService {
 		User usuario = userRepository.findById(request.getUserId())
 				.orElseThrow(() -> new EntityNotFoundException("User not found with id: " + request.getUserId()));
 		servico.setForum(new Forum());
+		servico.setUser(usuario);
 		usuario.getServicos().add(servico);
 		servicoRepository.save(servico);
 	}
@@ -128,18 +129,19 @@ public class ServicoService {
 	public void deleteServico(Long idServico) {
 	    Servico servico = servicoRepository.findById(idServico)
 	            .orElseThrow(() -> new EntityNotFoundException("Servico nao encontrado com o ID: " + idServico));
-		List<User> users = userRepository.findAll();
-		for (User user : users) {
-			if(!user.getServicos().isEmpty()){
-				for (int i = 0; i < user.getServicos().size(); i++){
-					if (user.getServicos().get(i).getId() == idServico) {
-						user.getServicos().remove(i);
-						userRepository.save(user);
-					}
-				}
-
-			}
-		}
+//		List<User> users = userRepository.findAll();
+//		for (User user : users) {
+//			if(!user.getServicos().isEmpty()){
+//				for (int i = 0; i < user.getServicos().size(); i++){
+//					if (user.getServicos().get(i).getId() == idServico) {
+//						user.getServicos().remove(i);
+//						userRepository.save(user);
+//					}
+//				}
+//
+//			}
+//		}
+	    servico.getUser().getServicos().remove(servico);
 	    servicoRepository.delete(servico);
 	}
 

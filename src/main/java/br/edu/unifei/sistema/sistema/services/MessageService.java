@@ -2,17 +2,16 @@ package br.edu.unifei.sistema.sistema.services;
 
 import java.util.List;
 
-import javax.annotation.processing.Messager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.edu.unifei.sistema.sistema.domain.Forum;
 import br.edu.unifei.sistema.sistema.domain.Message;
-import br.edu.unifei.sistema.sistema.domain.Servico;
 import br.edu.unifei.sistema.sistema.domain.User;
 import br.edu.unifei.sistema.sistema.dto.AddMessageRequest;
 import br.edu.unifei.sistema.sistema.dto.MessageDTO;
+import br.edu.unifei.sistema.sistema.repositories.ForumRepository;
 import br.edu.unifei.sistema.sistema.repositories.MessageRepository;
 import br.edu.unifei.sistema.sistema.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,6 +22,7 @@ public class MessageService {
 	private MessageRepository messageRepository;
 	
 	@Autowired UserRepository userRepository;
+	@Autowired ForumRepository forumRepository;
 	
 	@Transactional(readOnly = true)
 	public List<MessageDTO> findAll(){
@@ -64,6 +64,25 @@ public class MessageService {
 	public void deleteMensagem(Long idMensagem) {
 	    Message mensagem = messageRepository.findById(idMensagem)
 	            .orElseThrow(() -> new EntityNotFoundException("Mensagem nao encontrada com o ID: " + idMensagem));
+	    List<Forum> forums = forumRepository.findAll();
+	    
+	    for(Forum f: forums) {
+	    	if(!f.getMensagens().isEmpty()) {
+	    		for(int i = 0; i<f.getMensagens().size(); i++) {
+	    			if(f.getMensagens().get(i).getId() == idMensagem) {
+	    				f.getMensagens().remove(i);
+	    				forumRepository.save(f);
+	    				messageRepository.delete(mensagem);
+	    				return;
+	    			}
+	    				
+	    			
+	    		}
+	    	
+	    		
+	    	}
+	    }
+	    
 		messageRepository.delete(mensagem);
 	}
 }
