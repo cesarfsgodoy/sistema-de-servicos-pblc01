@@ -61,7 +61,7 @@ public class ServicoService {
 	}
 	
 	@Transactional
-	public void addServico(AddServicoRequest request) {
+	public Servico addServico(AddServicoRequest request) {
 		Servico servico = request.getServico();
 		User usuario = userRepository.findById(request.getUserId())
 				.orElseThrow(() -> new EntityNotFoundException("User not found with id: " + request.getUserId()));
@@ -69,6 +69,7 @@ public class ServicoService {
 		servico.setUser(usuario);
 		usuario.getServicos().add(servico);
 		servicoRepository.save(servico);
+		return servico;
 	}
 	
 	@Transactional
