@@ -51,7 +51,7 @@ public class ServicoController {
 	}
 	
 	@PostMapping
-	public Servico addServico(@RequestBody AddServicoRequest request) {
+	public ServicoDTO addServico(@RequestBody AddServicoRequest request) {
 //		Forum forum = new Forum();
 //		
 //		Servico servico = request.getServico();
@@ -65,7 +65,7 @@ public class ServicoController {
 //		servicoService.addServico(servico);
 //		usuarioService.addUser(user);
 		
-		Servico s = servicoService.addServico(request);
+		ServicoDTO s = servicoService.addServico(request);
 		return s;
 	}
 	

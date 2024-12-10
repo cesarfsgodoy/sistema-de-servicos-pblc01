@@ -19,8 +19,8 @@ public class UserService {
 	UserRepository userRepository;
 	
 	@Transactional
-	public void addUser(User user) {
-		userRepository.save(user);
+	public User addUser(User user) {
+		return userRepository.save(user);
 	}
 	
 //	@Transactional(readOnly = true)
