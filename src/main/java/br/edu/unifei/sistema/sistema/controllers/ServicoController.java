@@ -94,8 +94,8 @@ public class ServicoController {
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	@PutMapping("/{idServico}")
-	public void updateServico(@PathVariable Long idServico, @RequestBody Servico servicoUp) {
-		servicoService.updateServico(idServico,servicoUp);
+	public ServicoDTO updateServico(@PathVariable Long idServico, @RequestBody Servico servicoUp) {
+		return servicoService.updateServico(idServico,servicoUp);
 	}
 
 	@DeleteMapping(value = "/{idServico}")
